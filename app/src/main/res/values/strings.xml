@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">SE2Einzelphase</string>
+    <string name="abschicken">Abschicken</string>
+    <string name="gib_deine_matrikelnummer_ein">Gib deine Matrikelnummer ein:</string>
+    <string name="matrikelnummer">Matrikelnummer</string>
+    <string name="aufgabe_3">Aufgabe 3</string>
+    <string name="input_nach_berechnung">Input nach Berechnung:</string>
+    <string name="antwort_vom_server">Antwort vom Server:</string>
 </resources>
