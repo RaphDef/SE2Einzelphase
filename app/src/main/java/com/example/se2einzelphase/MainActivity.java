@@ -25,31 +25,26 @@ public class MainActivity extends AppCompatActivity {
                 calculate(mat);
             }
         });
-
-
     }
 
-    public void calculate(String mat){
+    public void calculate(String mat) {
         int[] matNumbers = new int[mat.length()];
 
-        for(int i = 0; i < matNumbers.length; i++){
-            matNumbers[i] = mat.charAt(i)-48;
+        for (int i = 0; i < matNumbers.length; i++) {
+            matNumbers[i] = mat.charAt(i) - 48;
         }
 
         StringBuilder finalMat = new StringBuilder();
 
-        for(int i = 0; i < matNumbers.length; i++){
-            if(i % 2 == 0){
+        for (int i = 0; i < matNumbers.length; i++) {
+            if (i % 2 == 0) {
                 finalMat.append(matNumbers[i]);
-            }else{
-                char temp = (char) (matNumbers[i]+96);
+            } else {
+                char temp = (char) (matNumbers[i] + 96);
                 finalMat.append(temp);
             }
         }
-
         TextView matOutput = findViewById(R.id.calcText);
         matOutput.setText(finalMat);
     }
-
-
 }
