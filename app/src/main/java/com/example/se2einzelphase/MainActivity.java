@@ -9,8 +9,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
-import java.io.DataOutput;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -44,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         //Add EventListener to CalculateButton (Aufgabe3)
         Button calc = findViewById(R.id.btnCalc);
         calc.setOnClickListener(new View.OnClickListener() {
@@ -56,28 +53,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    public void calculate(String mat) {
-        int[] matNumbers = new int[mat.length()];
-
-        for (int i = 0; i < matNumbers.length; i++) {
-            matNumbers[i] = mat.charAt(i) - 48;
-        }
-
-        StringBuilder finalMat = new StringBuilder();
-
-        for (int i = 0; i < matNumbers.length; i++) {
-            if (i % 2 == 0) {
-                finalMat.append(matNumbers[i]);
-            } else {
-                char temp = (char) (matNumbers[i] + 96);
-                finalMat.append(temp);
-            }
-        }
-        TextView matOutput = findViewById(R.id.calcText);
-        matOutput.setText(finalMat);
-    }
-
 
     public void observer(String mat) {
         createConnection(mat)
@@ -117,11 +92,37 @@ public class MainActivity extends AppCompatActivity {
 
                 BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
                 String response = br.readLine();
+
+                pw.close();
+                br.close();
+                con.close();
+
                 return Observable.just(response);
 
             } catch (IOException e) {
                 return Observable.just(e.getMessage());
             }
         });
+    }
+
+    public void calculate(String mat) {
+        int[] matNumbers = new int[mat.length()];
+
+        for (int i = 0; i < matNumbers.length; i++) {
+            matNumbers[i] = mat.charAt(i) - 48;
+        }
+
+        StringBuilder finalMat = new StringBuilder();
+
+        for (int i = 0; i < matNumbers.length; i++) {
+            if (i % 2 == 0) {
+                finalMat.append(matNumbers[i]);
+            } else {
+                char temp = (char) (matNumbers[i] + 96);
+                finalMat.append(temp);
+            }
+        }
+        TextView matOutput = findViewById(R.id.calcText);
+        matOutput.setText(finalMat);
     }
 }
