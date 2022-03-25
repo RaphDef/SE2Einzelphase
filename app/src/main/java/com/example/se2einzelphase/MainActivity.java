@@ -56,10 +56,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void observer(String mat) {
         createConnection(mat)
+                //Thread manager, can be used for asynchronously performing blocking IO
                 .subscribeOn(Schedulers.io())
+                //subscribe on I/O thread and observe on UI thread
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
 
+                    /*The Observable will emit items back to the Observer, causing the “onNext”
+                     * method to be called with access to the item emitted. If the Observable is
+                     * finished emitting objects, “onCompleted” is called. If an exception is
+                     * thrown at any time, “onError” is called with that exception, allowing for
+                     * easy error handling.
+                     */
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
                     }
@@ -84,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
 
     public Observable<String> createConnection(String mat) {
         return Observable.defer(() -> {
+            //like a promise in JS
+            //defer does not create the Observable until the observer subscribes, and create a fresh Observable for each observer
             try {
                 Socket con = new Socket(server, port);
                 PrintWriter pw = new PrintWriter(con.getOutputStream());
@@ -97,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 br.close();
                 con.close();
 
+                //just converts the String into an Observable that emits this String
                 return Observable.just(response);
 
             } catch (IOException e) {
@@ -110,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < matNumbers.length; i++) {
             matNumbers[i] = mat.charAt(i) - 48;
+            //char to int: '1' char == 49 int
         }
 
         StringBuilder finalMat = new StringBuilder();
@@ -120,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 char temp = (char) (matNumbers[i] + 96);
                 finalMat.append(temp);
+                //1 + 96 = 97: 97 int == 'a' char
             }
         }
         TextView matOutput = findViewById(R.id.calcText);
